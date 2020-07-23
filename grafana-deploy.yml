@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+
+
+
+
+metadata:
+  name: grafana
+  labels:
+    env: monitoring
+
+
+
+
+spec:
+  selector:
+    matchLabels:
+      env: monitoring
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        env: monitoring
+
+
+
+
+    spec:
+      containers:
+      - image: grafana/grafana:latest
+        name: grafana
+        ports:
+        - containerPort: 3000
+          name: grafana
+        volumeMounts:
+        - name: graf-storage
+          mountPath: /var/lib/grafana
+      volumes:
+      - name: graf-storage
+        persistentVolumeClaim:
+
+         claimName: graf-pvc

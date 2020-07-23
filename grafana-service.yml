@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+
+
+
+
+metadata:
+  name: graf-svc
+  labels: 
+    env: monitoring
+  
+spec:
+  ports:
+    - port: 3000
+      nodePort: 32200
+  selector:
+    env: monitoring
+
+  type: NodePort

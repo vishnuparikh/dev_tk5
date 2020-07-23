@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: prometheus
+  labels:
+    env: metrics
+spec:
+  selector:
+    matchLabels:
+      env: metrics
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        env: metrics
+    spec:
+      containers:
+      - image: prom/prometheus:latest
+        name: prometheus
+        ports:
+        - containerPort: 9090
+          name: prometheus
+        volumeMounts:
+        - name: prom-storage
+          mountPath: /etc/prometheus/data
+      volumes:
+      - name: prom-storage
+        persistentVolumeClaim:
+         claimName: prom-pvc
